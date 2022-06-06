@@ -11,18 +11,15 @@ public class Block extends Rectangle {
 Image pic;
 boolean destroyed;
 
-int posX, posY;
-int width, height;
-
 Block(int x, int y, int w, int h, String s){
-	this.posX = x;
-	this.posY = y;
+	this.x = x;
+	this.y = y;
 	
 	this.width = w;
 	this.height = h;
 	
 	try {
-		pic = ImageIO.read(new File(s));
+		pic = ImageIO.read(new File("src/"+s));
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -31,6 +28,6 @@ Block(int x, int y, int w, int h, String s){
 
 public void draw(Graphics g, Component c) {
 	if (!destroyed)
-		g.drawImage(pic, posX, posY, width, height, c)
+		g.drawImage(pic, x, y, width, height, c);
 }
 }
