@@ -1,3 +1,4 @@
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -6,6 +7,11 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class BlockBrakerPanel extends JPanel implements KeyListener {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	Block ball = new Block(237, 435, 35,25,"ball.png");
@@ -39,12 +45,22 @@ public class BlockBrakerPanel extends JPanel implements KeyListener {
 	
 	public void update() {
 		ball.x += ball.movX;
-		if(ball.x > (getWidth() - 25) || ball.x < 0)
-			ball.movX *=-1;
+		if(ball.x > (getWidth() - 25) || ball.x < 0) {
+			ball.movX *=-1; }
+	
 		
-		if(ball.x <0 || ball.intersects(paddle))
-			ball.movX *=-1;
+		if(ball.y <0 || ball.intersects(paddle)) {
+			ball.movY *=-1; }
+		
 		ball.y += ball.movY;
+		
+		blocks.forEach(block ->{
+			if (ball.intersects(block) && !block.destroyed) {
+				ball.movY *=-1;
+				block.destroyed = true;
+				
+			}
+		});
 		
 		repaint();
 		
@@ -72,11 +88,12 @@ public class BlockBrakerPanel extends JPanel implements KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && paddle.x < (getWidth() - paddle.width)) {
 			paddle.x += 15;
-			
+			System.out.println("pressed RIGHT "+getWidth());
 		}
 		
 		if (e.getKeyCode() == KeyEvent.VK_LEFT && paddle.x > 0) {
-			paddle.x -= 15;			
+			paddle.x -= 15;	
+		
 		}
 		
 	}
